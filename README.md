@@ -23,32 +23,9 @@ Finds places in geonames.  Meant to be used with [cwrc-public-entity-dialogs](ht
 
 Although it will not work in node.js as-is, it does use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for http requests, and so could likely therefore use a browser/node.js compatible fetch implementation like: [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch).
 
-geonames provides a search service:
+We use the geonames search service:
 
-```https://github.com/geonames/lookup```
-
-a hosted version of which can be accessed at:
-
-```http://lookup.geonames.org/api/search/KeywordSearch?QueryClass=place&MaxResults=5&QueryString=berlin```
-
-(Note that we set an accept header of application/json so we get back json and not the default xml.)
-
-The hosted geonames lookup does not, however, have an HTTPS endpoint.  And so, we proxy our calls to the geonames lookup through own server: 
- 
-```https://lookup.services.cwrc.ca/geonames```
- 
-to thereby allow the CWRC-Writer to make HTTPS calls to the geonames lookup.  
-We can’t make plain HTTP calls from the CWRC-Writer because the CWRC-Writer may only be 
-loaded over HTTPS, and any page loaded with HTTPS is not allowed (by many browsers) to make HTTP AJAX calls.
-
-We also rewrite the uri that is returned in the geonames results so that it uses another
-cwrc proxy:
-
-```https://geonames.lookup.services.cwrc.ca```
-
-which proxies calls to
-
-```http://geonames.org```
+```https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&maxRows=10```
 
 ### Installation
 
@@ -83,7 +60,7 @@ findPlace returns a promise that resolve to an object like the following:
    
    description: "Paris is the capital and largest city of France. It is situated on the river Seine, in northern France, at the heart of the Île-de-Franc…"
    
-   id: "http://geonames.org/resource/Paris"
+   id: "http://geonames.org/4345345"
    
    name: "Paris"
    
@@ -93,9 +70,9 @@ findPlace returns a promise that resolve to an object like the following:
    
    repository: "geonames"
    
-   uri: "http://geonames.org/resource/Paris"
+   uri: "http://geonames.org/4345345"
    
-   uriForDisplay: "https://geonames.lookup.services.cwrc.ca/resource/Paris"
+   uriForDisplay: "https://secure.geonames.org/4345345"
     
 }
 ```
