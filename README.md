@@ -23,7 +23,7 @@ Finds places in geonames.  Meant to be used with [cwrc-public-entity-dialogs](ht
 
 Although it will not work in node.js as-is, it does use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for http requests, and so could likely therefore use a browser/node.js compatible fetch implementation like: [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch).
 
-We use the geonames search service:
+For queries, we use the geonames search service:
 
 ```https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&maxRows=10```
 
@@ -31,10 +31,10 @@ To show full page preview of individual places we in effect call:
 
 ```http://geonames.org/[placeId]```
 
-but, to make the calls from a page that was itself loaded with https, we have to call the geonames url
+but, to make the calls from a page that was itself loaded with https, we have to call that url
 through a proxy:
 
-```https://getty.lookup.services.cwrc.ca```
+```https://geonames.lookup.services.cwrc.ca```
 
 ### Installation
 

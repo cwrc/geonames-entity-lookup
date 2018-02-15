@@ -62,7 +62,7 @@ function callGeonamesURL(url, queryString) {
                     nameType: 'place',
                     id: uri,
                     uri,
-                    uriForDisplay: `https://secure.geonames.org/${geonameId}`,
+                    uriForDisplay: `https://geonames.lookup.services.cwrc.ca/${geonameId}`,
                     name,
                     repository: 'geonames',
                     originalQueryString: queryString,
