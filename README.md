@@ -27,6 +27,15 @@ We use the geonames search service:
 
 ```https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&maxRows=10```
 
+To show full page preview of individual places we in effect call:
+
+```http://geonames.org/[placeId]```
+
+but, to make the calls from a page that was itself loaded with https, we have to call the geonames url
+through a proxy:
+
+```https://getty.lookup.services.cwrc.ca```
+
 ### Installation
 
 npm i geonames-entity-lookup -S
