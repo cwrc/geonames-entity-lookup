@@ -81,7 +81,9 @@ findPlace returns a promise that resolve to an object like the following:
    
    uri: "http://geonames.org/4345345"
    
-   uriForDisplay: "https://secure.geonames.org/4345345"
+   uriForDisplay: ""
+   
+   externalURI: "http://geonames.org/4345345"
     
 }
 ```

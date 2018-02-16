@@ -73,8 +73,6 @@ function callGeonamesURL(url, queryString) {
     })
 }
 
-
-
 function findPlace(queryString) {
     return callGeonamesURL(getPlaceLookupURI(queryString), queryString)
 }
