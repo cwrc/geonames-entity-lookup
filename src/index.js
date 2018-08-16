@@ -38,10 +38,7 @@ function fetchWithTimeout(url, config = {headers: {'Accept': 'application/json'}
         )
 }
 
-// note that this method is exposed on the npm module to simplify testing,
-// i.e., to allow intercepting the HTTP call during testing, using sinon or similar.
 function getPlaceLookupURI(queryString) {
-   // http://api.geonames.org/searchJSON?q=london&maxRows=10&username=demo
     return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=cwrcgeonames&maxRows=10`
 }
 
