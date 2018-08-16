@@ -42,7 +42,7 @@ function fetchWithTimeout(url, config = {headers: {'Accept': 'application/json'}
 // i.e., to allow intercepting the HTTP call during testing, using sinon or similar.
 function getPlaceLookupURI(queryString) {
    // http://api.geonames.org/searchJSON?q=london&maxRows=10&username=demo
-    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&maxRows=10`
+    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=cwrcgeonames&maxRows=10`
 }
 
 function callGeonamesURL(url, queryString) {
