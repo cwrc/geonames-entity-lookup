@@ -52,8 +52,8 @@ where the 'query' argument is an object:
 
 ```json
 {
-    entity:  The name of the place the user wants to find.
-    options: TBD
+    "entity":  "The name of the place the user wants to find.",
+    "options": "TBD"
 }
 ```
 
@@ -61,15 +61,15 @@ findPlace returns a promise that resolve to an object like the following:
 
 ```json
 {
-   description: "Paris is the capital and largest city of France. It is situated on the river Seine, in northern France, at the heart of the Île-de-Franc…"
-   id: "http://geonames.org/4345345"
-   name: "Paris"
-   nameType: "place"
-   originalQueryString: "paris"
-   repository: "geonames"
-   uri: "http://geonames.org/4345345"
-   uriForDisplay: ""
-   externalURI: "http://geonames.org/4345345"
+   "description": "Paris is the capital and largest city of France. It is situated on the river Seine, in northern France, at the heart of the Île-de-Franc…",
+   "id": "http://geonames.org/4345345",
+   "name": "Paris",
+   "nameType": "place",
+   "originalQueryString": "paris",
+   "repository": "geonames",
+   "uri": "http://geonames.org/4345345",
+   "uriForDisplay": "",
+   "externalURI": "http://geonames.org/4345345"
 }
 ```
 
