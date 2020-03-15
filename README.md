@@ -50,10 +50,10 @@ import geonamesLookup from 'geonames-entity-lookup';
 
 where the 'query' argument is an object:  
 
-```json
+```js
 {
-    "entity":  "The name of the place the user wants to find.",
-    "options": "TBD"
+    entity:  "The name of the place the user wants to find.",
+    options: "TBD"
 }
 ```
 
@@ -107,19 +107,6 @@ We use [babelify](https://github.com/babel/babelify) and [babel-plugin-istanbul]
 ### Continuous Integration
 
 We use [Travis](https://travis-ci.org).
-
-Note that to allow our tests to run in Electron on Travis, the following has been added to .travis.yml:
-
-```yml
-addons:
-  apt:
-    packages:
-      - xvfb
-install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - npm install
-```
 
 ### Release
 
