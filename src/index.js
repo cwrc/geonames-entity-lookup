@@ -11,27 +11,27 @@
     and not XML.
 */
 
-const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/json'}}, timeout = 30000) => {
+const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/json'}}, time = 30000) => {
 
-    /*
+     /*
         the reject on the promise in the timeout callback won't have any effect, *unless*
         the timeout is triggered before the fetch resolves, in which case the setTimeout rejects
         the whole outer Promise, and the promise from the fetch is dropped entirely.
     */
-   
-    setTimeout(() => {
-        throw new Error('Call to geonames timed out');
-    }, timeout);
 
-    const response = await fetch(url, config)
-        .catch( error => {
-            throw new Error(`Something wrong with the call to geonames, possibly a problem with the network or the server. Error: ${error}`);
-        });
+    // Create a promise that rejects in <time> milliseconds
+	const timeout = new Promise((resolve, reject) => {
+		let id = setTimeout(() => {
+			clearTimeout(id);
+			reject('Call to geonames timed out')
+		}, time)
+	})
 
-    if (response.ok) return response.json();
-
-    // if status not ok, through an error
-    throw new Error(`Something wrong with the call to geonames, possibly a problem with the network or the server. HTTP error: ${response.status}`);
+  // Returns a race between our timeout and the passed in promise
+	return Promise.race([
+		fetch(url, config),
+		timeout
+	])
 
 }
 
@@ -41,9 +41,17 @@ const getPlaceLookupURI = (queryString) => {
 
 const callGeonamesURL = async (url, queryString) => {
 
-    const results = await fetchWithTimeout(url);
+    let response = await fetchWithTimeout(url)
+        .catch((error) => {
+            return error;
+        })
 
-    const mapResults = results.geonames.map(
+    //if status not ok, through an error
+    if (!response.ok) throw new Error(`Something wrong with the call to geonames, possibly a problem with the network or the server. HTTP error: ${response.status}`)
+    
+    response = await response.json()
+
+    const mapResults = response.geonames.map(
         ({
             toponymName,
             adminName1: state = '',
