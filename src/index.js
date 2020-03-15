@@ -74,7 +74,6 @@ const findPlace = (queryString) => {
     return callGeonamesURL(getPlaceLookupURI(queryString), queryString)
 }
 
-// module.exports = {
 export default {
     findPlace,
     getPlaceLookupURI
