@@ -21,37 +21,36 @@ const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/
 
     // Create a promise that rejects in <time> milliseconds
 	const timeout = new Promise((resolve, reject) => {
-		let id = setTimeout(() => {
+		const id = setTimeout(() => {
 			clearTimeout(id);
 			reject('Call to geonames timed out')
 		}, time)
-	})
+	});
 
   // Returns a race between our timeout and the passed in promise
 	return Promise.race([
 		fetch(url, config),
 		timeout
-	])
-
-}
+	]);
+};
 
 const getPlaceLookupURI = (queryString) => {
-    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=cwrcgeonames&maxRows=10`
-}
+    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=cwrcgeonames&maxRows=10`;
+};
 
 const callGeonamesURL = async (url, queryString) => {
 
-    let response = await fetchWithTimeout(url)
+    const response = await fetchWithTimeout(url)
         .catch((error) => {
             return error;
-        })
+        });
 
     //if status not ok, through an error
-    if (!response.ok) throw new Error(`Something wrong with the call to geonames, possibly a problem with the network or the server. HTTP error: ${response.status}`)
+    if (!response.ok) throw new Error(`Something wrong with the call to geonames, possibly a problem with the network or the server. HTTP error: ${response.status}`);
     
-    response = await response.json()
+    const responseJson = await response.json();
 
-    const mapResults = response.geonames.map(
+    const mapResults = responseJson.geonames.map(
         ({
             toponymName,
             adminName1: state = '',
@@ -73,14 +72,12 @@ const callGeonamesURL = async (url, queryString) => {
                 originalQueryString: queryString,
                 description
             }
-        })
+        });
 
     return mapResults;
 }
 
-const findPlace = (queryString) => {
-    return callGeonamesURL(getPlaceLookupURI(queryString), queryString)
-}
+const findPlace = (queryString) => callGeonamesURL(getPlaceLookupURI(queryString), queryString);
 
 export default {
     findPlace,
