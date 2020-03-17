@@ -7,6 +7,7 @@ const emptyResultFixture = JSON.stringify(require('./httpResponseMocks/noResults
 const resultsFixture = JSON.stringify(require('./httpResponseMocks/results.json'));
 const noDescResultsFixture = JSON.stringify(require('./httpResponseMocks/resultsWitoutDescription.json'));
 
+const geonamesUsername = 'testUser';
 const queryString = 'smith';
 const queryStringWithNoResults = 'ldfjk';
 const queryStringForTimeout = 'chartrand';
@@ -18,12 +19,14 @@ jest.useFakeTimers();
 
 // setup server mocks
 
+geonames.credentials.username = geonamesUsername;
+
 const uriBuilderFn = geonames.getPlaceLookupURI;
 
 fetchMock.get(uriBuilderFn(queryString), resultsFixture);
 fetchMock.get(uriBuilderFn(queryStringWithNoResults), emptyResultFixture);
 fetchMock.get(uriBuilderFn(queryStringForTimeout), () => {
-    setTimeout(Promise.resolve, 8100);
+    setTimeout(Promise.reject, 810);
 });
 fetchMock.get(uriBuilderFn(queryStringForError), 500);
 fetchMock.get(uriBuilderFn(queryStringForMissingDescriptionInResult), noDescResultsFixture)
@@ -35,12 +38,18 @@ const doObjectsHaveSameKeys = (...objects) => {
     return objects.every(object => union.size === Object.keys(object).length);
 };
 
+test('lookup username', () => {
+    expect.assertions(1);
+    expect(geonames.credentials.username).toBeTruthy();
+});
+
 test('lookup builder', () => {
     expect.assertions(1);
     expect(geonames.getPlaceLookupURI(queryString).includes(queryString)).toBe(true);
 });
 
 test('findPlace', async () => {
+    expect.assertions(22);
     const results = await geonames.findPlace(queryString);
     expect(Array.isArray(results)).toBe(true);
     expect(results.length).toBeLessThanOrEqual(expectedResultLength);
@@ -63,6 +72,7 @@ test('findPlace', async () => {
 
 test('findPlace: result with no Description', async () => {
     // with a result from geonames with no Description
+    expect.assertions(3);
     const results = await geonames.findPlace(queryStringForMissingDescriptionInResult);
     expect(Array.isArray(results)).toBe(true);
     expect(doObjectsHaveSameKeys(results[0], {
@@ -81,6 +91,7 @@ test('findPlace: result with no Description', async () => {
 
 test('findPlace: no results', async () => {
     // with no results
+    expect.assertions(2);
     const results = await geonames.findPlace(queryStringWithNoResults);
     expect(Array.isArray(results)).toBe(true);
     expect(results.length).toBe(0);
@@ -88,6 +99,7 @@ test('findPlace: no results', async () => {
 
 test('findPlace: server error', async () => {
     // with a server error
+    expect.assertions(2);
     let shouldBeNullResult = false;
     shouldBeNullResult = await geonames.findPlace(queryStringForError)
         .catch( () => {
@@ -101,8 +113,9 @@ test('findPlace: server error', async () => {
 
 test('findPlace: times out', async () => {
     // when query times out
+    expect.assertions(1);
     await geonames.findPlace(queryStringForTimeout)
-        .catch( () => {
+        .catch(() => {
             // the promise should be rejected
             expect(true).toBe(true);
         });
