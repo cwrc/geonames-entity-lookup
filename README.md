@@ -23,26 +23,17 @@ Finds places in geonames. Meant to be used with [cwrc-public-entity-dialogs](htt
 
 Although it will not work in node.js as-is, it does use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for http requests, and so could likely therefore use a browser/node.js compatible fetch implementation like: [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch).
 
-For queries, we use the geonames search service:
+For queries, we use the geonames search service: `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&maxRows=10`
 
-`https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&maxRows=10`
-
-To show full page preview of individual places we in effect call:
-
-`http://geonames.org/[placeId]`
-
-but, to make the calls from a page that was itself loaded with https, we have to call that url
-through a proxy:
-
-`https://geonames.lookup.services.cwrc.ca`
+To show full page preview of individual places we in effect call: `https://geonames.org/[placeId]`.
 
 ## Installation
 
-npm i geonames-entity-lookup -S
+`npm i geonames-entity-lookup`
 
 ## Use
 
-import geonamesLookup from 'geonames-entity-lookup';
+`import geonamesLookup from 'geonames-entity-lookup';`
 
 ## API
 
@@ -62,14 +53,14 @@ findPlace returns a promise that resolve to an object like the following:
 ```json
 {
    "description": "Paris is the capital and largest city of France. It is situated on the river Seine, in northern France, at the heart of the Île-de-Franc…",
-   "id": "http://geonames.org/4345345",
+   "id": "https://geonames.org/4345345",
    "name": "Paris",
    "nameType": "place",
    "originalQueryString": "paris",
    "repository": "geonames",
-   "uri": "http://geonames.org/4345345",
+   "uri": "https://geonames.org/4345345",
    "uriForDisplay": "",
-   "externalURI": "http://geonames.org/4345345"
+   "externalURI": "https://geonames.org/4345345"
 }
 ```
 
@@ -97,8 +88,7 @@ We use [fetch-mock](https://github.com/wheresrhys/fetch-mock) to mock http calls
 
 <!-- ### Code Coverage
 
-We generate code coverage by instrumenting our code with [istanbul](https://github.com/gotwarlost/istanbul) before [browser-run](https://github.com/juliangruber/browser-run) runs the tests,
-then extract the coverage (which [istanbul](https://github.com/gotwarlost/istanbul) writes to the global object, i.e., the window in the browser), format it with [istanbul](https://github.com/gotwarlost/istanbul), and finally report (Travis actually does this for us) to [codecov.io](codecov.io) -->
+We generate code coverage by instrumenting our code with [istanbul](https://github.com/gotwarlost/istanbul) before [browser-run](https://github.com/juliangruber/browser-run) runs the tests, then extract the coverage (which [istanbul](https://github.com/gotwarlost/istanbul) writes to the global object, i.e., the window in the browser), format it with [istanbul](https://github.com/gotwarlost/istanbul), and finally report (Travis actually does this for us) to [codecov.io](codecov.io) -->
 
 <!-- ### Transpilation
 
@@ -110,5 +100,4 @@ We use [Travis](https://travis-ci.org).
 
 ### Release
 
-We follow [SemVer](http://semver.org), which [Semantic Release](https://github.com/semantic-release/semantic-release) makes easy.  
-Semantic Release also writes our commit messages, sets the version number, publishes to NPM, and finally generates a changelog and a release (including a git tag) on GitHub.
+We follow [SemVer](http://semver.org), which [Semantic Release](https://github.com/semantic-release/semantic-release) makes easy. Semantic Release also writes our commit messages, sets the version number, publishes to NPM, and finally generates a changelog and a release (including a git tag) on GitHub.
