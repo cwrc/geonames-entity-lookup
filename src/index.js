@@ -1,6 +1,6 @@
 'use strict';
 
-const geonamesUserName = 'cwrcgeonames';
+import {credentials} from './credentials';
 
 /*
      config is passed through to fetch, so could include things like:
@@ -13,7 +13,7 @@ const geonamesUserName = 'cwrcgeonames';
     and not XML.
 */
 
-const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/json'}}, time = 30000) => {
+const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/json'}}, time = 3000) => {
 
      /*
         the reject on the promise in the timeout callback won't have any effect, *unless*
@@ -37,10 +37,13 @@ const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/
 };
 
 const getPlaceLookupURI = (queryString) => {
-    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=${geonamesUserName}&maxRows=10`;
+    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=${credentials.username}&maxRows=10`;
 };
 
 const callGeonamesURL = async (url, queryString) => {
+
+    //if username is not provided
+    if (credentials.username === '') throw new Error('You must provide a username to make requests to GeoNames. See instruction here: <a href=https://github.com/cwrc/CWRC-GitWriter target="blank" rel="noopener noreferrer">https://github.com/cwrc/CWRC-GitWriter</a>');
 
     const response = await fetchWithTimeout(url)
         .catch((error) => {
@@ -83,5 +86,6 @@ const findPlace = (queryString) => callGeonamesURL(getPlaceLookupURI(queryString
 
 export default {
     findPlace,
-    getPlaceLookupURI
+    getPlaceLookupURI,
+    credentials
 }
