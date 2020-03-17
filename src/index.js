@@ -1,5 +1,7 @@
 'use strict';
 
+const geonamesUserName = 'cwrcgeonames';
+
 /*
      config is passed through to fetch, so could include things like:
      {
@@ -35,7 +37,7 @@ const fetchWithTimeout = async (url, config = {headers: {'Accept': 'application/
 };
 
 const getPlaceLookupURI = (queryString) => {
-    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=cwrcgeonames&maxRows=10`;
+    return `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(queryString)}&username=${geonamesUserName}&maxRows=10`;
 };
 
 const callGeonamesURL = async (url, queryString) => {
