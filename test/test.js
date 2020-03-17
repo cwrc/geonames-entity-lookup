@@ -33,8 +33,7 @@ const doObjectsHaveSameKeys = (...objects) => {
     const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);
     const union = new Set(allKeys);
     return objects.every(object => union.size === Object.keys(object).length);
-}
-
+};
 
 test('lookup builder', () => {
     expect.assertions(1);
@@ -42,10 +41,7 @@ test('lookup builder', () => {
 });
 
 test('findPlace', async () => {
-    const lookupFn = geonames.findPlace;
-    expect(typeof lookupFn).toBe('function');
-
-    const results = await lookupFn(queryString);
+    const results = await geonames.findPlace(queryString);
     expect(Array.isArray(results)).toBe(true);
     expect(results.length).toBeLessThanOrEqual(expectedResultLength);
 
@@ -62,8 +58,8 @@ test('findPlace', async () => {
             description: ''
         })).toBe(true);
         expect(singleResult.originalQueryString).toBe(queryString);
-    })
-})
+    });
+});
 
 test('findPlace: result with no Description', async () => {
     // with a result from geonames with no Description
@@ -81,14 +77,14 @@ test('findPlace: result with no Description', async () => {
         description: ''
     })).toBe(true);
     expect(results[0].description).toBe('No description available');
-})
+});
 
 test('findPlace: no results', async () => {
     // with no results
     const results = await geonames.findPlace(queryStringWithNoResults);
     expect(Array.isArray(results)).toBe(true);
     expect(results.length).toBe(0);
-})
+});
 
 test('findPlace: server error', async () => {
     // with a server error
@@ -101,7 +97,7 @@ test('findPlace: server error', async () => {
         })
     // a falsey result should be returned
     expect(shouldBeNullResult).toBeFalsy();
-})
+});
 
 test('findPlace: times out', async () => {
     // when query times out
@@ -109,5 +105,5 @@ test('findPlace: times out', async () => {
         .catch( () => {
             // the promise should be rejected
             expect(true).toBe(true);
-        })
-})
+        });
+});
