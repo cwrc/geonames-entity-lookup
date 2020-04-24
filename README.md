@@ -39,7 +39,9 @@ To show full page preview of individual places we in effect call: `https://geona
 
 GeoNames is a free service but it requires a user account.
 This should be provided through CWRC-GitWriter configuration (see more here: [https://github.com/cwrc/CWRC-GitWriter](https://github.com/cwrc/CWRC-GitWriter)).
+
 If you want to use it as a standalone, you can provide the user name adding the following line to `index.js`: `credentials.username = '${YOUR_USERNAME}'`
+
 You can create a free user account here account: [https://www.geonames.org/login](https://www.geonames.org/login)
 
 ## API
