@@ -7,7 +7,7 @@ module.exports = {
 			statements: 85,
 			branches: 65,
 			functions: 85,
-			lines: 90,
+			lines: 85,
 		},
 	},
 	testMatch: ['**/test/**/*.[jt]s?(x)'],
