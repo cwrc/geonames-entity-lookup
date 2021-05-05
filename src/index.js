@@ -65,7 +65,11 @@ const callGeonamesURL = async (url, queryString) => {
     and not XML.
 */
 
-const fetchWithTimeout = async (url, config = { headers: { Accept: 'application/json' } }, time = 3000) => {
+const fetchWithTimeout = async (
+  url,
+  config = { headers: { Accept: 'application/json' } },
+  time = 3000
+) => {
   /*
 	the reject on the promise in the timeout callback won't have any effect, *unless*
 	the timeout is triggered before the fetch resolves, in which case the setTimeout rejects
